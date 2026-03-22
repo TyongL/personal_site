@@ -7,6 +7,9 @@
 <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=JetBrains+Mono:wght@300;400;700&amp;family=Space+Grotesk:wght@300;500;700&amp;family=Inter:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
 <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Vanta.js Requirements -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
 <script id="tailwind-config">
       tailwind.config = {
         darkMode: "class",
@@ -103,6 +106,14 @@
         }
         .glitch-text {
             text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd;
+            animation: glitch-anim 5s infinite;
+        }
+        @keyframes glitch-anim {
+            0% { text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd; }
+            2% { text-shadow: -2px 0 #ff51fa, 2px 0 #00d2fd; }
+            4% { text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd; transform: skewX(1deg); }
+            6% { transform: skewX(0); }
+            100% { text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd; }
         }
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
@@ -111,6 +122,11 @@
         .data-grid {
             background-image: radial-gradient(rgba(164, 255, 185, 0.1) 1px, transparent 1px);
             background-size: 20px 20px;
+            animation: grid-move 10s linear infinite;
+        }
+        @keyframes grid-move {
+            0% { background-position: 0 0; }
+            100% { background-position: 20px 20px; }
         }
         @keyframes scan {
             0% { top: 0; }
@@ -187,7 +203,9 @@
 </header>
 <main class="pt-24 pb-20 px-4 md:px-8 max-w-7xl mx-auto space-y-32">
 <!-- Hero Section -->
-<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[716px]" id="about">
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[716px] relative overflow-hidden" id="about">
+    <div id="vanta-bg-container" class="absolute inset-0 z-[-1] opacity-40"></div>
+    <div class="absolute inset-0 data-grid z-[-1] opacity-20 pointer-events-none"></div>
 <div class="lg:col-span-7 space-y-6 reveal fade-right">
 <div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high border-l-2 border-primary text-primary font-mono text-xs uppercase tracking-tighter">
 <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>Tyong
@@ -488,6 +506,25 @@
         }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
 
         document.querySelectorAll('.reveal, .timeline-line').forEach(el => observer.observe(el));
+
+        // Vanta.js Initialization
+        if (typeof VANTA !== 'undefined') {
+            VANTA.NET({
+                el: "#vanta-bg-container",
+                mouseControls: true,
+                touchControls: true,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x00ff88,
+                backgroundColor: 0x0e0e13,
+                points: 8.00,
+                maxDistance: 24.00,
+                spacing: 18.00
+            });
+        }
 
         // Navigation Highlight Logic
         const sections = document.querySelectorAll("section[id]");
