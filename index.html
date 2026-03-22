@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="zh-CN"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>刘天洋 | ARCHIVE_PM.v1</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=JetBrains+Mono:wght@300;400;700&amp;family=Space+Grotesk:wght@300;500;700&amp;family=Inter:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "background": "#0e0e13",
+              "surface-container-highest": "#25252d",
+              "outline": "#76747b",
+              "on-tertiary": "#004c5e",
+              "secondary-container": "#a900a9",
+              "on-secondary": "#400040",
+              "inverse-surface": "#fcf8ff",
+              "primary-fixed": "#00fd87",
+              "on-error-container": "#ffa8a3",
+              "surface-container-low": "#131319",
+              "surface-tint": "#a4ffb9",
+              "on-tertiary-fixed": "#002c37",
+              "primary-container": "#00fd87",
+              "surface-container": "#19191f",
+              "surface-container-lowest": "#000000",
+              "error": "#ff716c",
+              "on-error": "#490006",
+              "outline-variant": "#48474d",
+              "on-surface": "#f9f5fd",
+              "tertiary-dim": "#00c3eb",
+              "surface-bright": "#2c2b33",
+              "surface-container-high": "#1f1f26",
+              "on-primary-fixed": "#004621",
+              "on-primary-container": "#005b2c",
+              "inverse-on-surface": "#55545b",
+              "secondary-fixed-dim": "#ffa6f3",
+              "primary-dim": "#00ed7e",
+              "secondary": "#ff51fa",
+              "on-tertiary-container": "#004352",
+              "error-container": "#9f0519",
+              "inverse-primary": "#006e37",
+              "tertiary-container": "#00d2fd",
+              "on-secondary-fixed-variant": "#920091",
+              "primary-fixed-dim": "#00ed7e",
+              "error-dim": "#d7383b",
+              "surface": "#0e0e13",
+              "on-tertiary-fixed-variant": "#004c5d",
+              "secondary-fixed": "#ffbdf3",
+              "primary": "#a4ffb9",
+              "on-secondary-container": "#fff5f9",
+              "tertiary-fixed": "#00d2fd",
+              "on-background": "#f9f5fd",
+              "secondary-dim": "#ff51fa",
+              "surface-variant": "#25252d",
+              "on-secondary-fixed": "#620061",
+              "on-surface-variant": "#acaab1",
+              "tertiary-fixed-dim": "#00c3eb",
+              "surface-dim": "#0e0e13",
+              "on-primary-fixed-variant": "#006632",
+              "on-primary": "#006532",
+              "tertiary": "#6dddff"
+            },
+            fontFamily: {
+              "headline": ["Space Grotesk", "sans-serif"],
+              "body": ["Inter", "sans-serif"],
+              "label": ["Inter", "sans-serif"],
+              "mono": ["JetBrains Mono", "monospace"],
+              "orbitron": ["Orbitron", "sans-serif"]
+            },
+            borderRadius: {"DEFAULT": "0px", "lg": "0px", "xl": "0px", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        body {
+            background-color: #0e0e13;
+            color: #f9f5fd;
+            overflow-x: hidden;
+        }
+        .scanline-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+            background-size: 100% 2px, 3px 100%;
+            pointer-events: none;
+            z-index: 100;
+            opacity: 0.15;
+        }
+        .chamfer {
+            clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+        }
+        .chamfer-sm {
+            clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+        }
+        .glitch-text {
+            text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .data-grid {
+            background-image: radial-gradient(rgba(164, 255, 185, 0.1) 1px, transparent 1px);
+            background-size: 20px 20px;
+        }
+        @keyframes scan {
+            0% { top: 0; }
+            100% { top: 100%; }
+        }
+        .scanner-line {
+            animation: scan 2s linear infinite;
+        }
+        .qr-popover {
+            opacity: 0;
+            transform: translateY(10px) scale(0.95);
+            pointer-events: none;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .group:hover .qr-popover {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            pointer-events: auto;
+        }
+        .reveal {
+            opacity: 0;
+            transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translate(0, 0) scale(1);
+        }
+        .fade-bottom { transform: translateY(50px); }
+        .fade-left { transform: translateX(-50px); }
+        .fade-right { transform: translateX(50px); }
+        .scale-up { transform: scale(0.9); }
+        .delay-100 { transition-delay: 100ms; }
+        .delay-200 { transition-delay: 200ms; }
+        .delay-300 { transition-delay: 300ms; }
+        .timeline-line {
+            transform-origin: top;
+            transform: scaleY(0);
+            transition: transform 1.5s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+        .timeline-line.active { transform: scaleY(1); }
+        html {
+            scroll-behavior: smooth;
+            scroll-padding-top: 100px;
+        }
+        .nav-link {
+            color: rgba(249, 245, 253, 0.7);
+            border-bottom: 2px solid transparent;
+            padding-bottom: 0.25rem;
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .nav-link:hover {
+            color: #00ff88;
+        }
+        .nav-link.active {
+            color: #00ff88;
+            border-bottom-color: #00ff88;
+        }
+    </style>
+</head>
+<body class="font-body selection:bg-primary-container selection:text-on-primary-container">
+<div class="scanline-overlay"></div>
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-[#0e0e13]/80 backdrop-blur-xl z-50 border-b-[0.5px] border-[#00ff88]/30">
+<div class="text-xl font-black text-[#00ff88] drop-shadow-[0_0_8px_rgba(0,255,136,0.8)] font-['Orbitron'] uppercase tracking-widest">Tyong-2026</div>
+<nav class="hidden md:flex space-x-8 font-['Orbitron'] uppercase tracking-widest text-sm">
+<a class="nav-link active" data-target="about" href="#about">关于我</a>
+<a class="nav-link" data-target="journey" href="#journey">经历</a>
+<a class="nav-link" data-target="projects" href="#projects">项目</a>
+<a class="nav-link" data-target="contact" href="#contact">联系我</a>
+</nav>
+<div class="text-[#00ff88]">
+<span class="material-symbols-outlined">terminal</span>
+</div>
+</header>
+<main class="pt-24 pb-20 px-4 md:px-8 max-w-7xl mx-auto space-y-32">
+<!-- Hero Section -->
+<section class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center min-h-[716px]" id="about">
+<div class="lg:col-span-7 space-y-6 reveal fade-right">
+<div class="inline-flex items-center gap-2 px-3 py-1 bg-surface-container-high border-l-2 border-primary text-primary font-mono text-xs uppercase tracking-tighter">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>Tyong
+                </div>
+<h1 class="text-6xl md:text-8xl font-orbitron font-black text-on-surface leading-tight tracking-tighter glitch-text">
+                    刘天洋
+                </h1>
+<h2 class="text-2xl md:text-3xl font-mono text-primary font-bold tracking-widest uppercase">产品经理 X AI应用探索者</h2>
+<div class="p-6 bg-surface-container-low chamfer border-l border-t border-primary/20 relative group overflow-hidden">
+<div class="absolute top-0 right-0 p-2 font-mono text-[10px] text-primary/40">REF_001_BIO</div>
+<p class="font-mono text-on-surface-variant leading-relaxed text-sm md:text-base">
+                        我关注 AI 应用如何真正进入业务场景，也持续把复杂问题做成可以交付、可以体验、可以被验证的产品。
+                    </p>
+<div class="mt-6 flex flex-wrap gap-4">
+<a class="bg-primary-container text-background px-6 py-2 font-mono font-bold chamfer-sm hover:translate-x-1 hover:-translate-y-1 active:scale-95 transition-all inline-block" href="#projects">查看项目</a>
+<a class="border border-primary/40 text-primary px-6 py-2 font-mono font-bold chamfer-sm hover:bg-primary/10 active:scale-95 transition-all inline-block" href="#contact">微信联系</a>
+</div>
+</div>
+</div>
+<!-- HUD/Data Viz Panel -->
+<div class="lg:col-span-5 hidden lg:block reveal fade-left delay-200">
+<div class="relative group">
+<!-- Neon Border & Glow Container -->
+<div class="absolute -inset-1 bg-primary/20 blur-xl group-hover:bg-primary/40 transition duration-1000 group-hover:duration-200"></div>
+<div class="relative bg-surface-container-high chamfer border border-primary/50 overflow-hidden shadow-[0_0_30px_rgba(164,255,185,0.2)]">
+<!-- Profile Image -->
+<img alt="刘天洋 Profile" class="w-full h-auto object-cover opacity-90 grayscale-[20%] contrast-110 brightness-90 group-hover:grayscale-0 group-hover:brightness-100 transition-all duration-700" src="avatar.png"/>
+<!-- Scanline Overlay for the image -->
+<div class="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.1)_50%),linear-gradient(90deg,rgba(255,0,0,0.03),rgba(0,255,0,0.01),rgba(0,0,255,0.03))] bg-[length:100%_4px,4px_100%] opacity-40"></div>
+<!-- HUD Labels to maintain the aesthetic -->
+<div class="absolute top-4 right-4 font-mono text-[10px] text-primary/60 bg-background/60 px-2 py-1 backdrop-blur-sm border-l border-primary/40">
+                    USER_ID: TYONG_01
+                </div>
+<div class="absolute bottom-4 left-4 font-mono text-[8px] text-primary/40">
+                    STATUS: BIOMETRIC_VERIFIED // ARCHIVE_ACTIVE
+                </div>
+</div>
+</div>
+</div>
+</section>
+<!-- Journey Section -->
+<section class="space-y-16" id="journey">
+<div class="w-full reveal fade-bottom">
+<h2 class="text-5xl md:text-7xl font-orbitron font-black text-[#00ff88] uppercase tracking-tighter glitch-text mb-8 text-left">我的经历</h2>
+<div class="font-mono text-[#e0e0e0] text-base md:text-lg border-l-4 border-[#00ff88] pl-6 max-w-3xl leading-relaxed">
+                    随着 AI 落地，企业业务面临系统性重构。<br/>
+                    我在探索真实业务场景，定位并解决具有重塑价值的核心痛点。
+                </div>
+</div>
+<div class="relative max-w-5xl mx-auto py-12">
+<div class="absolute left-4 md:left-1/2 top-0 bottom-0 w-px bg-gradient-to-b from-[#00ff88]/50 via-[#00ff88] to-[#00ff88]/50 md:-translate-x-1/2 timeline-line"></div>
+<div class="space-y-12">
+<!-- 2025 - 至今 -->
+<div class="relative flex flex-col md:flex-row md:items-center reveal fade-right">
+<div class="flex-1 md:text-right md:pr-12 mb-4 md:mb-0">
+<div class="font-orbitron font-black text-3xl md:text-4xl text-[#00ff88] tracking-tighter">2025 - 至今</div>
+<div class="font-mono text-[10px] text-[#00ff88]/40 uppercase tracking-widest mt-1">REF_SYSTEM_CURRENT</div>
+</div>
+<div class="absolute left-[13px] md:left-1/2 w-3 h-3 bg-[#00ff88] shadow-[0_0_10px_#00ff88] rotate-45 md:-translate-x-1/2 z-10 border border-background"></div>
+<div class="flex-1 md:pl-12">
+<div class="bg-surface-container-high p-6 chamfer-sm border-r-2 border-b-2 border-[#00ff88]/20 hover:border-[#00ff88]/50 transition-all duration-300">
+<h3 class="text-xl font-bold font-mono text-on-surface mb-3 flex items-center gap-2">
+<span class="text-[#00ff88] font-black">博商管理</span> | AI 产品经理
+                                </h3>
+<p class="font-mono text-on-surface-variant text-sm leading-relaxed">
+                                    在博商，我开始真正以 AI 产品经理的身份进入企业场景，去解决真实业务问题。我也越来越确信，AI 不是增加一个功能，而是一场从需求理解到业务重塑的系统性重构。
+                                </p>
+</div>
+</div>
+</div>
+<!-- 2024 -->
+<div class="relative flex flex-col md:flex-row-reverse md:items-center reveal fade-left delay-100">
+<div class="flex-1 md:text-left md:pl-12 mb-4 md:mb-0">
+<div class="font-orbitron font-black text-3xl md:text-4xl text-[#00ff88] tracking-tighter">2024</div>
+<div class="font-mono text-[10px] text-[#00ff88]/40 uppercase tracking-widest mt-1">REF_PRODUCT_STREAMING</div>
+</div>
+<div class="absolute left-[13px] md:left-1/2 w-3 h-3 bg-[#00ff88] shadow-[0_0_10px_#00ff88] rotate-45 md:-translate-x-1/2 z-10 border border-background"></div>
+<div class="flex-1 md:pr-12">
+<div class="bg-surface-container-high p-6 chamfer-sm border-r-2 border-b-2 border-[#00ff88]/20 hover:border-[#00ff88]/50 transition-all duration-300">
+<h3 class="text-xl font-bold font-mono text-on-surface mb-3 flex items-center gap-2">
+<span class="text-[#00ff88] font-black">保利威</span> | 产品经理
+                                </h3>
+<p class="font-mono text-on-surface-variant text-sm leading-relaxed">
+                                    在保利威，我亲历了将 AI 能力转化为商业化产品功能的全过程。这段经历让我更深入理解了 SaaS 如何赋能客户，也看到了交付逻辑背后的现实约束与行业困境。
+                                </p>
+</div>
+</div>
+</div>
+<!-- 2021 - 2024 -->
+<div class="relative flex flex-col md:flex-row md:items-center reveal fade-right delay-100">
+<div class="flex-1 md:text-right md:pr-12 mb-4 md:mb-0">
+<div class="font-orbitron font-black text-3xl md:text-4xl text-[#00ff88] tracking-tighter">2021 - 2024</div>
+<div class="font-mono text-[10px] text-[#00ff88]/40 uppercase tracking-widest mt-1">REF_STABILITY_LEGACY</div>
+</div>
+<div class="absolute left-[13px] md:left-1/2 w-3 h-3 bg-[#00ff88] shadow-[0_0_10px_#00ff88] rotate-45 md:-translate-x-1/2 z-10 border border-background"></div>
+<div class="flex-1 md:pl-12">
+<div class="bg-surface-container-high p-6 chamfer-sm border-r-2 border-b-2 border-[#00ff88]/20 hover:border-[#00ff88]/50 transition-all duration-300">
+<h3 class="text-xl font-bold font-mono text-on-surface mb-3 flex items-center gap-2">
+<span class="text-[#00ff88] font-black">卓望数码</span> | 产品经理
+                                </h3>
+<p class="font-mono text-on-surface-variant text-sm leading-relaxed">
+                                    卓望数码给了我成为产品经理的机会。在这里，我系统训练了产品基本功，也逐渐发现，自己擅长理解需求、协调多方，并把复杂问题推进成可执行的方案。
+                                </p>
+</div>
+</div>
+</div>
+<!-- 2021 -->
+<div class="relative flex flex-col md:flex-row-reverse md:items-center reveal fade-left delay-100">
+<div class="flex-1 md:text-left md:pl-12 mb-4 md:mb-0">
+<div class="font-orbitron font-black text-3xl md:text-4xl text-[#ff51fa] tracking-tighter">2021</div>
+<div class="font-mono text-[10px] text-[#ff51fa]/40 uppercase tracking-widest mt-1">REF_INTERFACE_CORE</div>
+</div>
+<div class="absolute left-[13px] md:left-1/2 w-3 h-3 bg-[#ff51fa] shadow-[0_0_10px_#ff51fa] rotate-45 md:-translate-x-1/2 z-10 border border-background"></div>
+<div class="flex-1 md:pr-12">
+<div class="bg-surface-container-high p-6 chamfer-sm border-r-2 border-b-2 border-[#ff51fa]/20 hover:border-[#ff51fa]/50 transition-all duration-300">
+<h3 class="text-xl font-bold font-mono text-on-surface mb-3 flex items-center gap-2">
+<span class="text-[#ff51fa] font-black">滴答清单</span> | 产品实习生
+                                </h3>
+<p class="font-mono text-on-surface-variant text-sm leading-relaxed">
+                                    这段经历让我第一次真切感受到，互联网工具的价值不只是功能本身，更在于它如何连接人、提升效率，并改变人的工作方式。我也因此确定，产品是我真正想长期投入的方向。
+                                </p>
+</div>
+</div>
+</div>
+<!-- 2017 - 2021 -->
+<div class="relative flex flex-col md:flex-row md:items-center reveal fade-right delay-100">
+<div class="flex-1 md:text-right md:pr-12 mb-4 md:mb-0">
+<div class="font-orbitron font-black text-3xl md:text-4xl text-[#6dddff] tracking-tighter">2017 - 2021</div>
+<div class="font-mono text-[10px] text-[#6dddff]/40 uppercase tracking-widest mt-1">REF_ACADEMIC_BASE</div>
+</div>
+<div class="absolute left-[13px] md:left-1/2 w-3 h-3 bg-[#6dddff] shadow-[0_0_10px_#6dddff] rotate-45 md:-translate-x-1/2 z-10 border border-background"></div>
+<div class="flex-1 md:pl-12">
+<div class="bg-surface-container-high p-6 chamfer-sm border-r-2 border-b-2 border-[#6dddff]/20 hover:border-[#6dddff]/50 transition-all duration-300">
+<h3 class="text-xl font-bold font-mono text-on-surface mb-3 flex items-center gap-2">
+<span class="text-[#6dddff] font-black">中南林业科技大学</span> | 土地资源管理（GIS方向）
+                                </h3>
+<p class="font-mono text-on-surface-variant text-sm leading-relaxed">
+                                    独立开发 Python 插件批量处理遥感数据的经历让我确认：去打造能提升效率、创造用户价值的产品才是我真正想做的，我也因此偏离了既定的专业。
+                                </p>
+</div>
+</div>
+</div>
+</div>
+<div class="mt-20 text-center max-w-2xl mx-auto space-y-4 reveal fade-bottom delay-200">
+<p class="font-mono text-on-surface-variant text-sm">一路从真实业务、产品实践和客户问题中，慢慢走到这里。</p>
+<p class="font-mono text-primary text-base font-bold">
+                        未来会有越来越多企业业务，被 AI 推倒重建。<br/>
+                        我想做的，就是站在这场重构里，把它真正落下来。
+                    </p>
+</div>
+</div>
+</section>
+<!-- Project Grid -->
+<section class="space-y-12" id="projects">
+<div class="w-full reveal fade-bottom">
+<h2 class="text-5xl md:text-7xl font-orbitron font-black text-[#00ff88] uppercase tracking-tighter glitch-text mb-8 text-left">我的项目</h2>
+<div class="font-mono text-[#e0e0e0] text-base md:text-lg border-l-4 border-[#ff51fa] pl-6 max-w-4xl leading-relaxed">
+                    这里是我最希望被进一步了解的 4 个项目。它们覆盖咨询交付、销售训练、AI 能力产品化和增长场景，也最能代表我如何把复杂问题推进成可落地方案。
+                </div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Project 1 -->
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-primary/20 hover:border-primary/60 p-8 group transition-all duration-500 reveal fade-bottom">
+<div class="font-mono text-[10px] text-primary mb-2 flex justify-between items-center">
+<span>PRJ_CODE: CONSULT_AGENT</span>
+<span>AI 解决方案产品负责人</span>
+</div>
+<h4 class="font-orbitron text-2xl font-black text-on-surface mb-4 group-hover:text-primary transition-colors">企业经营咨询智能体矩阵</h4>
+<p class="font-mono text-sm text-primary/80 mb-4 font-bold">把咨询方法论拆解成可执行的智能体流程，形成可持续交付、可复用扩展、可商业化验证的 AI 咨询平台。</p>
+<div class="bg-black/20 p-4 border-l-2 border-primary/40 mb-6">
+<p class="font-mono text-xs text-on-surface-variant leading-relaxed">我把原本高度依赖人工的咨询交付流程，沉淀成了一套可复制的多智能体平台。</p>
+</div>
+<div class="flex flex-wrap gap-3 mt-auto">
+<button class="px-8 py-2 bg-primary/20 border border-primary/40 font-mono text-xs text-primary hover:bg-primary/40 transition-colors chamfer-sm">查看项目</button>
+</div>
+</div>
+<!-- Project 2 -->
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-secondary/20 hover:border-secondary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-100">
+<div class="font-mono text-[10px] text-secondary mb-2 flex justify-between items-center">
+<span>PRJ_CODE: SALES_TRAIN</span>
+<span>AI 解决方案产品负责人</span>
+</div>
+<h4 class="font-orbitron text-2xl font-black text-on-surface mb-4 group-hover:text-secondary transition-colors">销售成长平台</h4>
+<p class="font-mono text-sm text-secondary/80 mb-4 font-bold">围绕训练、陪练、复盘和成长追踪搭建 AI 训战平台，把销售训练从经验驱动转向可量化管理。</p>
+<div class="bg-black/20 p-4 border-l-2 border-secondary/40 mb-6">
+<p class="font-mono text-xs text-on-surface-variant leading-relaxed">我从 0 到 1 设计 platform 能力，并把内部训战系统延展到对外客户方案和 POC 场景。</p>
+</div>
+<div class="flex flex-wrap gap-3 mt-auto">
+<button class="px-8 py-2 bg-secondary/20 border border-secondary/40 font-mono text-xs text-secondary hover:bg-secondary/40 transition-colors chamfer-sm">查看项目</button>
+</div>
+</div>
+<!-- Project 3 -->
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-tertiary/20 hover:border-tertiary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-200">
+<div class="font-mono text-[10px] text-tertiary mb-2 flex justify-between items-center">
+<span>PRJ_CODE: VIDEO_PRODUCT</span>
+<span>产品经理</span>
+</div>
+<h4 class="font-orbitron text-2xl font-black text-on-surface mb-4 group-hover:text-tertiary transition-colors">AI 直播营销能力产品化</h4>
+<p class="font-mono text-sm text-tertiary/80 mb-4 font-bold">围绕直播和视频场景，将 AI 快剪、视频翻译、数字人智课等能力产品化为可售卖 SaaS 模块。</p>
+<div class="bg-black/20 p-4 border-l-2 border-tertiary/40 mb-6">
+<p class="font-mono text-xs text-on-surface-variant leading-relaxed">我推动 AI 能力从“技术可用”走向“可售卖、可复制、可交付”。</p>
+</div>
+<div class="flex flex-wrap gap-3 mt-auto">
+<button class="px-8 py-2 bg-tertiary/20 border border-tertiary/40 font-mono text-xs text-tertiary hover:bg-tertiary/40 transition-colors chamfer-sm">查看项目</button>
+</div>
+</div>
+<!-- Project 4 -->
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-primary/20 hover:border-primary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-300">
+<div class="font-mono text-[10px] text-primary mb-2 flex justify-between items-center">
+<span>PRJ_CODE: GROWTH_MULTI</span>
+<span>产品经理</span>
+</div>
+<h4 class="font-orbitron text-2xl font-black text-on-surface mb-4 group-hover:text-primary transition-colors">移动云盘多端增长与渠道合作</h4>
+<p class="font-mono text-sm text-primary/80 mb-4 font-bold">围绕 App、TV 端和微信小程序等多端场景，设计关键增长链路，支撑千万级用户规模下的产品增长。</p>
+<div class="bg-black/20 p-4 border-l-2 border-primary/40 mb-6">
+<p class="font-mono text-xs text-on-surface-variant leading-relaxed">我在大规模业务场景里做过真正影响增长和活跃的产品链路设计。</p>
+</div>
+<div class="flex flex-wrap gap-3 mt-auto">
+<button class="px-8 py-2 bg-primary/20 border border-primary/40 font-mono text-xs text-primary hover:bg-primary/40 transition-colors chamfer-sm">查看项目</button>
+</div>
+</div>
+</div>
+</section>
+<!-- Connect Section -->
+<section class="space-y-12" id="contact">
+<div class="flex items-center gap-4 reveal fade-bottom">
+<h2 class="text-5xl md:text-7xl font-orbitron font-black text-[#00ff88] uppercase tracking-tighter glitch-text">欢迎交流</h2>
+<div class="h-[1px] flex-grow bg-gradient-to-r from-primary/50 to-transparent"></div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-5xl mx-auto">
+<!-- Personal WeChat -->
+<div class="group relative reveal scale-up delay-100">
+<div class="bg-surface-container-high p-8 chamfer border-l-2 border-t-2 border-primary/20 hover:border-primary/60 transition-all duration-500 cursor-pointer flex flex-col items-center justify-center gap-4 overflow-hidden min-h-[220px]">
+<div class="absolute top-2 right-4 font-mono text-[10px] text-primary/40">SYSTEM_COMMS_01</div>
+<div class="text-primary group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-6xl">chat_bubble</span>
+</div>
+<div class="text-center">
+<p class="font-mono text-primary font-bold text-xl tracking-widest uppercase">个人微信</p>
+<p class="font-mono text-on-surface-variant text-xs mt-1">PERSONAL_WECHAT</p>
+</div>
+<!-- Popover -->
+<div class="qr-popover absolute inset-0 z-20 bg-background/95 backdrop-blur-md flex flex-col items-center justify-center p-6 border border-primary/50 chamfer">
+<div class="relative w-40 h-40 border border-primary/30 p-2 overflow-hidden bg-white/5">
+<div class="scanner-line absolute left-0 w-full h-[1px] bg-primary/80 shadow-[0_0_8px_#00ff88] z-10"></div>
+<img alt="WeChat QR" class="w-full h-full object-contain opacity-80 mix-blend-screen grayscale contrast-125" src="WeiXin.png"/>
+</div>
+<p class="mt-4 font-mono text-primary text-xs uppercase tracking-widest animate-pulse">Scanning Archive...</p>
+</div>
+</div>
+</div>
+<!-- Official Account -->
+<div class="group relative reveal scale-up delay-200">
+<div class="bg-surface-container-high p-8 chamfer border-l-2 border-t-2 border-primary/20 hover:border-primary/60 transition-all duration-500 cursor-pointer flex flex-col items-center justify-center gap-4 overflow-hidden min-h-[220px]">
+<div class="absolute top-2 right-4 font-mono text-[10px] text-primary/40">BROADCAST_FEED_02</div>
+<div class="text-primary group-hover:scale-110 transition-transform duration-500">
+<span class="material-symbols-outlined text-6xl">newspaper</span>
+</div>
+<div class="text-center">
+<p class="font-mono text-primary font-bold text-xl tracking-widest uppercase">微信公众号</p>
+<p class="font-mono text-on-surface-variant text-xs mt-1">OFFICIAL_ACCOUNT</p>
+</div>
+<!-- Popover -->
+<div class="qr-popover absolute inset-0 z-20 bg-background/95 backdrop-blur-md flex flex-col items-center justify-center p-6 border border-primary/50 chamfer">
+<div class="relative w-40 h-40 border border-primary/30 p-2 overflow-hidden bg-white/5">
+<div class="scanner-line absolute left-0 w-full h-[1px] bg-primary/80 shadow-[0_0_8px_#00ff88] z-10"></div>
+<img alt="Official Account QR" class="w-full h-full object-contain opacity-80 mix-blend-screen grayscale contrast-125" src="WeiXinPubilc.jpg"/>
+</div>
+<p class="mt-4 font-mono text-primary text-xs uppercase tracking-widest animate-pulse">Syncing Feed...</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- Footer -->
+<footer class="w-full bg-[#131319] border-t-[0.5px] border-[#ff51fa]/20 px-8 py-10">
+<div class="max-w-7xl mx-auto text-center">
+<p class="font-mono text-[0.75rem] text-[#f9f5fd]/40 uppercase tracking-[0.2em]">
+© 2026 TYONG. ALL RIGHTS RESERVED.
+</p>
+</div>
+</footer>
+<!-- Decorative Elements -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none opacity-20 z-[-1] overflow-hidden">
+<div class="absolute top-[10%] left-[5%] text-[100px] font-black font-orbitron text-primary-container/5 select-none rotate-90">PM_2025</div>
+<div class="absolute bottom-[20%] right-[2%] text-[80px] font-black font-orbitron text-secondary/5 select-none -rotate-12">DATA_ARCHIVE</div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.15, rootMargin: "0px 0px -50px 0px" });
+
+        document.querySelectorAll('.reveal, .timeline-line').forEach(el => observer.observe(el));
+
+        // Navigation Highlight Logic
+        const sections = document.querySelectorAll("section[id]");
+        const navLinks = document.querySelectorAll(".nav-link");
+
+        window.addEventListener("scroll", () => {
+            let current = "";
+            sections.forEach((section) => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 150) {
+                    current = section.getAttribute("id");
+                }
+            });
+
+            navLinks.forEach((link) => {
+                link.classList.remove("active");
+                if (link.getAttribute("data-target") === current) {
+                    link.classList.add("active");
+                }
+            });
+        });
+    });
+</script>
+</body></html>
