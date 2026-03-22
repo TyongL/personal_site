@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Tyong_2026_公众号发文贴图版</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;500;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/vanta/0.5.24/vanta.net.min.js"></script>
+
+<script id="tailwind-config">
+tailwind.config = {
+    darkMode: "class",
+    theme: {
+        extend: {
+            colors: {
+                "background": "#0e0e13",
+                "surface-container-high": "#1f1f26",
+                "primary": "#00ff88",
+                "on-surface": "#f9f5fd",
+                "on-surface-variant": "#acaab1",
+                "secondary": "#ff51fa",
+                "tertiary": "#6dddff"
+            },
+            fontFamily: {
+                "body": ["Inter", "sans-serif"],
+                "mono": ["JetBrains Mono", "monospace"],
+                "orbitron": ["Orbitron", "sans-serif"]
+            }
+        }
+    }
+}
+</script>
+
+<style>
+    body {
+        margin: 0;
+        padding: 40px 0;
+        background-color: #0e0e13;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 60px; /* 卡片之间的间距 */
+    }
+
+    /* 3:4 比例卡片设置 1080 x 1440 */
+    .post-card {
+        width: 1080px;
+        height: 1440px;
+        position: relative;
+        overflow: hidden;
+        background-color: #0e0e13;
+        color: #f9f5fd;
+        box-shadow: 0 0 50px rgba(0,255,136,0.1);
+        border: 2px solid rgba(0, 255, 136, 0.2);
+        transform-origin: top center;
+        /* 为了在普通屏幕上好预览，缩小了一半。截图时可以通过浏览器自带的抓取节点功能截取 1080x1440 的原始像素 */
+        zoom: 0.6; 
+    }
+
+    /* 扫描线和网格背景 */
+    .scanline-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+                    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+        background-size: 100% 4px, 4px 100%;
+        pointer-events: none;
+        z-index: 10;
+        opacity: 0.3;
+    }
+    .data-grid {
+        position: absolute;
+        inset: 0;
+        background-image: radial-gradient(rgba(164, 255, 185, 0.1) 2px, transparent 2px);
+        background-size: 30px 30px;
+        z-index: 1;
+        opacity: 0.3;
+    }
+    
+    .chamfer {
+        clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+    }
+
+    .glitch-text {
+        text-shadow: 3px 0 #ff51fa, -3px 0 #00d2fd;
+    }
+</style>
+</head>
+<body class="font-body selection:bg-primary/20">
+
+    <div class="text-on-surface-variant font-mono text-sm mb-4">
+        提示：按 F12 打开开发者工具，右键对应的 <code>&lt;div class="post-card"&gt;</code> 节点选择 "截取节点屏幕截图(Capture node screenshot)" 即可获得完美的高清 3:4 比例(1080x1440)原图。
+    </div>
+
+    <!-- =============== 图1：封面 / 关于我 =============== -->
+    <div class="post-card" id="card-1">
+        <div class="vanta-bg absolute inset-0 z-0 opacity-40"></div>
+        <div class="data-grid"></div>
+        <div class="scanline-overlay"></div>
+        
+        <div class="relative z-20 h-full flex flex-col justify-between p-24 box-border">
+            <!-- 头部 ID -->
+            <div class="font-orbitron text-primary tracking-widest text-2xl uppercase border-b border-primary/30 pb-4">
+                ARCHIVE_PM.v1 // TYONG_2026
+            </div>
+
+            <!-- 核心内容区 -->
+            <div class="flex-1 flex flex-col justify-center">
+                <div class="grid grid-cols-12 gap-12 items-center">
+                    <!-- 左侧文字 -->
+                    <div class="col-span-12 space-y-12 relative z-30">
+                        <div class="inline-flex items-center gap-4 px-6 py-2 bg-surface-container-high border-l-4 border-primary text-primary font-mono text-xl uppercase tracking-widest">
+                            <span class="w-3 h-3 rounded-full bg-primary shadow-[0_0_10px_#00ff88]"></span>Tyong Profile
+                        </div>
+                        
+                        <h1 class="text-[140px] font-orbitron font-black text-on-surface leading-none tracking-tighter glitch-text drop-shadow-2xl">
+                            刘天洋
+                        </h1>
+                        
+                        <h2 class="text-5xl font-mono text-primary font-bold tracking-widest uppercase mt-4">产品经理 X AI应用探索者</h2>
+                        
+                        <div class="p-10 mt-16 bg-surface-container-high/60 backdrop-blur-md chamfer border-l-2 border-t-2 border-primary/40 relative">
+                            <div class="absolute top-0 right-0 p-4 font-mono text-sm text-primary/40">REF_001_BIO</div>
+                            <p class="font-mono text-on-surface-variant leading-relaxed text-3xl">
+                                我关注 AI 应用如何真正进入业务场景，也持续把复杂问题做成可以交付、可以体验、可以被验证的产品。
+                            </p>
+                            <p class="font-mono text-primary leading-relaxed text-2xl font-bold mt-8">
+                                SCANNING DIRECTORY... > 载入经历与实践摘要 
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部装饰 -->
+            <div class="flex justify-between items-end">
+                <div class="font-mono text-primary/30 text-xl">PAGE_01/04</div>
+                <div class="w-1/3 h-[2px] bg-gradient-to-l from-primary to-transparent"></div>
+            </div>
+        </div>
+        
+        <!-- 大背景图层 -->
+        <div class="absolute right-0 bottom-0 w-[60%] h-[70%] z-10 opacity-70 mask-image:linear-gradient(to_bottom,transparent,black)">
+             <img src="assets/images/avatar.png" class="w-full h-full object-cover grayscale-[30%] contrast-125" alt="Avatar">
+        </div>
+    </div>
+
+    <!-- =============== 图2：工作经历 =============== -->
+    <div class="post-card" id="card-2">
+        <div class="vanta-bg absolute inset-0 z-0 opacity-20"></div>
+        <div class="data-grid"></div>
+        <div class="scanline-overlay"></div>
+        
+        <div class="relative z-20 h-full flex flex-col p-24 box-border">
+            <!-- 头部 -->
+            <div class="mb-16">
+                <h2 class="text-7xl font-orbitron font-black text-primary uppercase tracking-tighter glitch-text">EXPERIENCE</h2>
+                <div class="font-mono text-on-surface-variant text-3xl border-l-8 border-primary pl-6 mt-8 leading-relaxed max-w-4xl">
+                    随着 AI 落地，企业业务面临系统性重构。我在探索真实业务场景，定位并解决具有重塑价值的核心痛点。
+                </div>
+            </div>
+
+            <!-- 经历时间轴 -->
+            <div class="flex-1 relative flex flex-col gap-12 mt-12 pl-8">
+                <!-- 中轴线 -->
+                <div class="absolute left-[36px] top-4 bottom-4 w-1 bg-gradient-to-b from-primary via-primary to-primary/20 shadow-[0_0_15px_#00ff88]"></div>
+                
+                <!-- Item 1 -->
+                <div class="relative pl-16">
+                    <div class="absolute left-[-5px] top-3 w-5 h-5 bg-primary shadow-[0_0_15px_#00ff88] rotate-45 border-2 border-[#0e0e13]"></div>
+                    <div class="font-orbitron font-black text-4xl text-primary tracking-tighter mb-2">2025 - 至今</div>
+                    <div class="bg-surface-container-high/80 p-8 chamfer border-r-4 border-b-4 border-primary/30">
+                        <h3 class="text-3xl font-bold font-mono text-on-surface mb-4">博商管理 | AI 产品经理</h3>
+                        <p class="font-mono text-on-surface-variant text-2xl leading-relaxed">正式以 AI 产经身份进入企业场景解决业务问题。确信 AI 是一场系统性重构。</p>
+                    </div>
+                </div>
+
+                <!-- Item 2 -->
+                <div class="relative pl-16">
+                    <div class="absolute left-[-5px] top-3 w-5 h-5 bg-primary shadow-[0_0_15px_#00ff88] rotate-45 border-2 border-[#0e0e13]"></div>
+                    <div class="font-orbitron font-black text-4xl text-primary tracking-tighter mb-2">2024</div>
+                    <div class="bg-surface-container-high/80 p-8 chamfer border-r-4 border-b-4 border-primary/30">
+                        <h3 class="text-3xl font-bold font-mono text-on-surface mb-4">保利威 | 产品经理</h3>
+                        <p class="font-mono text-on-surface-variant text-2xl leading-relaxed">亲历 AI 能力向商业化产品功能转化的全过程，理解 SaaS 交付赋能与企业现实约束。</p>
+                    </div>
+                </div>
+
+                <!-- Item 3 -->
+                <div class="relative pl-16">
+                    <div class="absolute left-[-5px] top-3 w-5 h-5 bg-primary shadow-[0_0_15px_#00ff88] rotate-45 border-2 border-[#0e0e13]"></div>
+                    <div class="font-orbitron font-black text-4xl text-primary tracking-tighter mb-2">2021 - 2024</div>
+                    <div class="bg-surface-container-high/80 p-8 chamfer border-r-4 border-b-4 border-primary/30">
+                        <h3 class="text-3xl font-bold font-mono text-on-surface mb-4">卓望数码 | 产品经理</h3>
+                        <p class="font-mono text-on-surface-variant text-2xl leading-relaxed">系统训练产品基本功，确立理解需求、协调推进复杂落地任务的能力长板。</p>
+                    </div>
+                </div>
+
+                <!-- Item 4 -->
+                <div class="relative pl-16">
+                    <div class="absolute left-[-5px] top-3 w-5 h-5 bg-[#ff51fa] shadow-[0_0_15px_#ff51fa] rotate-45 border-2 border-[#0e0e13]"></div>
+                    <div class="font-orbitron font-black text-4xl text-[#ff51fa] tracking-tighter mb-2">2021</div>
+                    <div class="bg-surface-container-high/80 p-8 chamfer border-r-4 border-b-4 border-[#ff51fa]/30">
+                        <h3 class="text-3xl font-bold font-mono text-on-surface mb-4">滴答清单 | 产品实习生</h3>
+                        <p class="font-mono text-on-surface-variant text-2xl leading-relaxed">感受到互联网工具对人工作方式的真正改变，确定自己长期投入的产品方向。</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 底部装饰 -->
+            <div class="flex justify-between items-end mt-auto">
+                <div class="font-mono text-primary/30 text-xl">PAGE_02/04</div>
+                <div class="w-1/3 h-[2px] bg-gradient-to-l from-primary to-transparent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============== 图3：重点项目 =============== -->
+    <div class="post-card" id="card-3">
+        <div class="vanta-bg absolute inset-0 z-0 opacity-20"></div>
+        <div class="data-grid"></div>
+        <div class="scanline-overlay"></div>
+        
+        <div class="relative z-20 h-full flex flex-col p-24 box-border">
+            <!-- 头部 -->
+            <div class="mb-10">
+                <h2 class="text-7xl font-orbitron font-black text-secondary uppercase tracking-tighter glitch-text">PROJECTS</h2>
+                <div class="font-mono text-on-surface-variant text-3xl border-l-8 border-secondary pl-6 mt-8 leading-relaxed max-w-4xl">
+                    这里最能代表我如何把复杂问题推进成可落地方案。
+                </div>
+            </div>
+
+            <!-- 项目容器 -->
+            <div class="flex-1 grid grid-cols-1 gap-8 mt-6">
+                <!-- Proj 1 -->
+                <div class="bg-surface-container-high/90 p-8 chamfer border-l-4 border-t-4 border-primary/40 relative">
+                    <div class="absolute top-4 right-4 font-mono text-sm text-primary">AI 解决方案产品负责人</div>
+                    <h4 class="font-orbitron text-4xl font-black text-on-surface mb-4 text-primary">企业经营咨询智能体矩阵</h4>
+                    <p class="font-mono text-2xl text-on-surface-variant font-bold mb-4">把咨询方法论拆解成可执行的智能体流程，形成可持续交付的 AI 平台。</p>
+                    <div class="bg-black/30 p-4 border-l-4 border-primary/50 text-xl font-mono text-on-surface-variant">
+                        我把原本高度依赖人工的咨询交付流程，沉淀成了一套可复制的多智能体平台。
+                    </div>
+                </div>
+
+                <!-- Proj 2 -->
+                <div class="bg-surface-container-high/90 p-8 chamfer border-l-4 border-t-4 border-secondary/40 relative">
+                    <div class="absolute top-4 right-4 font-mono text-sm text-secondary">AI 解决方案产品负责人</div>
+                    <h4 class="font-orbitron text-4xl font-black text-on-surface mb-4 text-secondary">销售成长平台</h4>
+                    <p class="font-mono text-2xl text-on-surface-variant font-bold mb-4">围绕训练与复盘搭建 AI 训战平台，把销售训练转向可量化管理。</p>
+                    <div class="bg-black/30 p-4 border-l-4 border-secondary/50 text-xl font-mono text-on-surface-variant">
+                        我从 0 到 1 设计 platform，并把内部系统延展到对外客户方案。
+                    </div>
+                </div>
+
+                <!-- Proj 3 -->
+                <div class="bg-surface-container-high/90 p-8 chamfer border-l-4 border-t-4 border-tertiary/40 relative">
+                    <div class="absolute top-4 right-4 font-mono text-sm text-tertiary">产品经理</div>
+                    <h4 class="font-orbitron text-4xl font-black text-on-surface mb-4 text-tertiary">AI 直播营销能力产品化</h4>
+                    <p class="font-mono text-2xl text-on-surface-variant font-bold mb-4">围绕视频场景，将快剪、翻译等能力孵化为可售卖 SaaS 模块。</p>
+                    <div class="bg-black/30 p-4 border-l-4 border-tertiary/50 text-xl font-mono text-on-surface-variant">
+                        推动 AI 能力从“技术可用”走向“可售卖、可复制、可交付”。
+                    </div>
+                </div>
+
+                <!-- Proj 4 -->
+                <div class="bg-surface-container-high/90 p-8 chamfer border-l-4 border-t-4 border-primary/40 relative">
+                    <div class="absolute top-4 right-4 font-mono text-sm text-primary">产品经理</div>
+                    <h4 class="font-orbitron text-4xl font-black text-on-surface mb-4 text-primary">云盘多端增长与渠道合作</h4>
+                    <p class="font-mono text-2xl text-on-surface-variant font-bold mb-4">围绕移动多端构建关键增长链路，支撑千万级用户规模。</p>
+                </div>
+            </div>
+
+            <!-- 底部装饰 -->
+            <div class="flex justify-between items-end mt-auto">
+                <div class="font-mono text-secondary/30 text-xl">PAGE_03/04</div>
+                <div class="w-1/3 h-[2px] bg-gradient-to-l from-secondary to-transparent"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =============== 图4：联系方式 =============== -->
+    <div class="post-card" id="card-4">
+        <div class="vanta-bg absolute inset-0 z-0 opacity-40"></div>
+        <div class="data-grid"></div>
+        <div class="scanline-overlay"></div>
+        
+        <div class="relative z-20 h-full flex flex-col p-24 box-border text-center">
+            
+            <div class="mt-20 mb-16">
+                <span class="material-symbols-outlined text-[100px] text-primary drop-shadow-[0_0_20px_#00ff88]">terminal</span>
+                <h2 class="text-8xl font-orbitron font-black text-primary uppercase tracking-tighter glitch-text mt-8">CONTACT ME</h2>
+                <div class="w-24 h-2 bg-primary mx-auto mt-8 mb-4 shadow-[0_0_15px_#00ff88]"></div>
+                <p class="font-mono text-3xl text-on-surface-variant mt-10">
+                    未来会有越来越多企业业务，被 AI 推倒重建。<br><br>我想做的，就是站在这场重构里，把它真正落下来。
+                </p>
+                <p class="font-mono text-4xl text-primary font-bold mt-12 uppercase tracking-widest drop-shadow-[0_0_8px_rgba(0,255,136,0.8)]">
+                    欢迎扫码交流探讨合作
+                </p>
+            </div>
+
+            <!-- 二维码区块 -->
+            <div class="flex-1 flex justify-center items-center gap-24">
+                <!-- 微信 -->
+                <div class="flex flex-col items-center">
+                    <div class="w-[360px] h-[360px] bg-surface-container-high p-4 chamfer border-2 border-primary/30 relative overflow-hidden group">
+                        <div class="absolute left-0 w-full h-[2px] bg-primary/80 shadow-[0_0_10px_#00ff88] z-10 animate-[scan_3s_linear_infinite]"></div>
+                        <img src="assets/images/weixin.png" class="w-full h-full object-contain mix-blend-screen opacity-90 contrast-125 grayscale" alt="WeChat">
+                    </div>
+                    <p class="font-mono text-3xl text-primary font-bold mt-8 tracking-widest">微信号：刘天洋</p>
+                    <p class="font-mono text-xl text-primary/60 mt-2">PERSONAL_WECHAT</p>
+                </div>
+
+                <!-- 公众号 -->
+                <div class="flex flex-col items-center">
+                    <div class="w-[360px] h-[360px] bg-surface-container-high p-4 chamfer border-2 border-tertiary/30 relative overflow-hidden group">
+                        <div class="absolute left-0 w-full h-[2px] bg-tertiary/80 shadow-[0_0_10px_#6dddff] z-10 animate-[scan_3s_linear_infinite]"></div>
+                        <img src="assets/images/weixin-public.jpg" class="w-full h-full object-contain mix-blend-screen opacity-90 contrast-125 grayscale" alt="Official Account">
+                    </div>
+                    <p class="font-mono text-3xl text-tertiary font-bold mt-8 tracking-widest">微信公众号</p>
+                    <p class="font-mono text-xl text-tertiary/60 mt-2">OFFICIAL_ACCOUNT</p>
+                </div>
+            </div>
+
+            <!-- 底部装饰 -->
+            <div class="flex justify-between items-end mt-auto">
+                <div class="font-mono text-primary/30 text-xl">PAGE_04/04</div>
+                <div class="font-orbitron text-primary/30 text-xl">END OF ARCHIVE // 2026</div>
+            </div>
+        </div>
+    </div>
+
+<script>
+    // 给四张卡片分别渲染轻量的网络动效
+    if (typeof VANTA !== 'undefined') {
+        document.querySelectorAll('.vanta-bg').forEach(el => {
+            VANTA.NET({
+                el: el,
+                mouseControls: false,
+                touchControls: false,
+                gyroControls: false,
+                minHeight: 200.00,
+                minWidth: 200.00,
+                scale: 1.00,
+                scaleMobile: 1.00,
+                color: 0x00ff88,
+                backgroundColor: 0x0e0e13,
+                points: 5.00,      // 为了不喧宾夺主，点稀薄一点
+                maxDistance: 25.00,
+                spacing: 20.00,
+                showDots: true
+            });
+        });
+    }
+</script>
+
+<style>
+    @keyframes scan {
+        0% { top: 0; }
+        100% { top: 100%; }
+    }
+</style>
+</body>
+</html>
