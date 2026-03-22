@@ -532,19 +532,33 @@
 
         window.addEventListener("scroll", () => {
             let current = "";
+            const scrollPos = window.scrollY + 200; // 调整偏移量以获得更灵敏的反馈
+
             sections.forEach((section) => {
                 const sectionTop = section.offsetTop;
-                const sectionHeight = section.clientHeight;
-                if (scrollY >= sectionTop - 150) {
+                if (scrollPos >= sectionTop) {
                     current = section.getAttribute("id");
                 }
             });
+
+            // 特殊处理：如果滚动到了页面最底部，强制激活最后一个导航项（联系我）
+            if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 5) {
+                current = "contact";
+            }
 
             navLinks.forEach((link) => {
                 link.classList.remove("active");
                 if (link.getAttribute("data-target") === current) {
                     link.classList.add("active");
                 }
+            });
+        });
+
+        // 导航平滑点击逻辑辅助
+        navLinks.forEach(link => {
+            link.addEventListener('click', (e) => {
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
             });
         });
     });
