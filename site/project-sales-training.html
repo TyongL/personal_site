@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html class="dark" lang="zh-CN">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>销售成长平台 | 刘天洋</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&amp;family=JetBrains+Mono:wght@300;400;700&amp;family=Space+Grotesk:wght@300;500;700&amp;family=Inter:wght@300;400;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+tailwind.config = {
+  darkMode: "class",
+  theme: {
+    extend: {
+      colors: {
+        "background": "#0e0e13",
+        "surface-container-highest": "#25252d",
+        "outline": "#76747b",
+        "on-tertiary": "#004c5e",
+        "secondary-container": "#a900a9",
+        "on-secondary": "#400040",
+        "inverse-surface": "#fcf8ff",
+        "primary-fixed": "#00fd87",
+        "on-error-container": "#ffa8a3",
+        "surface-container-low": "#131319",
+        "surface-tint": "#a4ffb9",
+        "on-tertiary-fixed": "#002c37",
+        "primary-container": "#00fd87",
+        "surface-container": "#19191f",
+        "surface-container-lowest": "#000000",
+        "error": "#ff716c",
+        "on-error": "#490006",
+        "outline-variant": "#48474d",
+        "on-surface": "#f9f5fd",
+        "tertiary-dim": "#00c3eb",
+        "surface-bright": "#2c2b33",
+        "surface-container-high": "#1f1f26",
+        "on-primary-fixed": "#004621",
+        "on-primary-container": "#005b2c",
+        "inverse-on-surface": "#55545b",
+        "secondary-fixed-dim": "#ffa6f3",
+        "primary-dim": "#00ed7e",
+        "secondary": "#ff51fa",
+        "on-tertiary-container": "#004352",
+        "error-container": "#9f0519",
+        "inverse-primary": "#006e37",
+        "tertiary-container": "#00d2fd",
+        "on-secondary-fixed-variant": "#920091",
+        "primary-fixed-dim": "#00ed7e",
+        "error-dim": "#d7383b",
+        "surface": "#0e0e13",
+        "on-tertiary-fixed-variant": "#004c5d",
+        "secondary-fixed": "#ffbdf3",
+        "primary": "#a4ffb9",
+        "on-secondary-container": "#fff5f9",
+        "tertiary-fixed": "#00d2fd",
+        "on-background": "#f9f5fd",
+        "secondary-dim": "#ff51fa",
+        "surface-variant": "#25252d",
+        "on-secondary-fixed": "#620061",
+        "on-surface-variant": "#acaab1",
+        "tertiary-fixed-dim": "#00c3eb",
+        "surface-dim": "#0e0e13",
+        "on-primary-fixed-variant": "#006632",
+        "on-primary": "#006532",
+        "tertiary": "#6dddff"
+      },
+      fontFamily: {
+        "headline": ["Space Grotesk", "sans-serif"],
+        "body": ["Inter", "sans-serif"],
+        "label": ["Inter", "sans-serif"],
+        "mono": ["JetBrains Mono", "monospace"],
+        "orbitron": ["Orbitron", "sans-serif"]
+      }
+    }
+  }
+}
+</script>
+<style>
+body {
+  background-color: #0e0e13;
+  color: #f9f5fd;
+  overflow-x: hidden;
+}
+.scanline-overlay {
+  position: fixed;
+  inset: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.15;
+}
+.chamfer {
+  clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+}
+.chamfer-sm {
+  clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
+}
+.glitch-text {
+  text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd;
+  animation: glitch-anim 5s infinite;
+}
+@keyframes glitch-anim {
+  0% { text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd; }
+  2% { text-shadow: -2px 0 #ff51fa, 2px 0 #00d2fd; }
+  4% { text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd; transform: skewX(1deg); }
+  6% { transform: skewX(0); }
+  100% { text-shadow: 2px 0 #ff51fa, -2px 0 #00d2fd; }
+}
+.material-symbols-outlined {
+  font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24;
+  vertical-align: middle;
+}
+.data-grid {
+  background-image: radial-gradient(rgba(109, 221, 255, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+.action-fab {
+  box-shadow: 0 0 0 1px rgba(109, 221, 255, 0.2), 0 0 24px rgba(109, 221, 255, 0.18);
+}
+.pdf-shell {
+  min-height: 72vh;
+}
+</style>
+</head>
+<body class="font-body selection:bg-tertiary-container selection:text-on-tertiary-container">
+<div class="scanline-overlay"></div>
+<div class="fixed inset-0 pointer-events-none opacity-20">
+  <div class="absolute inset-0 data-grid"></div>
+  <div class="absolute top-[12%] left-[4%] text-[92px] font-black font-orbitron text-secondary/5 select-none rotate-90">SALES</div>
+  <div class="absolute bottom-[12%] right-[3%] text-[74px] font-black font-orbitron text-tertiary/5 select-none">TRAINING_PLATFORM</div>
+</div>
+
+<header class="fixed top-0 w-full flex justify-between items-center px-6 py-4 bg-[#0e0e13]/85 backdrop-blur-xl z-50 border-b-[0.5px] border-[#6dddff]/30">
+  <a class="text-xl font-black text-[#00ff88] drop-shadow-[0_0_8px_rgba(0,255,136,0.8)] font-[\'Orbitron\'] uppercase tracking-widest" href="index.html">Tyong-2026</a>
+  <a class="border border-tertiary/40 text-tertiary px-4 py-2 font-mono text-xs uppercase tracking-[0.2em] hover:bg-tertiary/10 transition-colors chamfer-sm" href="index.html#projects">返回项目列表</a>
+</header>
+
+<main class="pt-28 pb-8 px-4 md:px-8 max-w-7xl mx-auto space-y-4">
+  <section class="space-y-5">
+    <div class="max-w-4xl space-y-5">
+      <p class="font-mono text-tertiary text-xs uppercase tracking-[0.35em]">PRJ_CODE: SALES_TRAIN</p>
+      <h1 class="text-4xl md:text-6xl font-orbitron font-black tracking-tight glitch-text">销售成长平台</h1>
+      <p class="max-w-3xl font-mono text-on-surface-variant leading-7 text-sm md:text-base">
+        项目围绕训练、陪练、复盘与成长追踪搭建 AI 训战平台，把销售团队培养从经验驱动推进到过程可量化、结果可追踪的产品体系。
+      </p>
+      <div class="flex flex-wrap gap-4 font-mono text-xs uppercase tracking-[0.22em]">
+        <span class="px-4 py-2 bg-secondary/10 border border-secondary/30 chamfer-sm text-secondary">销售训练</span>
+        <span class="px-4 py-2 bg-tertiary/10 border border-tertiary/30 chamfer-sm text-tertiary">陪练复盘</span>
+        <span class="px-4 py-2 bg-primary/10 border border-primary/30 chamfer-sm text-primary">成长追踪</span>
+      </div>
+    </div>
+  </section>
+
+  <section class="pdf-shell relative bg-surface-container-high/90 border border-tertiary/20 chamfer overflow-hidden">
+    <a class="absolute top-4 right-4 z-10 bg-background/85 px-4 py-2 border border-tertiary/35 text-tertiary font-mono text-[11px] uppercase tracking-[0.2em] hover:bg-tertiary/10 transition-colors chamfer-sm" href="assets/docs/AI_Sales_Traning.pdf" target="_blank" rel="noreferrer">新窗口查看</a>
+    <iframe class="w-full h-[72vh] bg-surface-container-lowest" src="assets/docs/AI_Sales_Traning.pdf" title="销售成长平台 PDF"></iframe>
+  </section>
+</main>
+
+<section class="project-actions max-w-7xl mx-auto px-4 md:px-8 pb-12">
+  <div class="mt-1 flex flex-wrap items-center justify-center gap-4 rounded-sm border border-tertiary/25 bg-gradient-to-r from-tertiary/10 via-surface-container-high to-primary/10 px-5 py-5 shadow-[0_0_32px_rgba(109,221,255,0.12)]">
+    <button class="action-fab min-w-[160px] px-6 py-3 bg-primary/25 border border-primary/50 text-primary font-mono text-xs uppercase tracking-[0.2em] hover:bg-primary/40 transition-colors chamfer-sm" data-modal-target="wechat-modal" type="button">联系我</button>
+    <a class="action-fab min-w-[220px] px-6 py-3 bg-tertiary/25 border border-tertiary/50 text-tertiary font-mono text-xs uppercase tracking-[0.16em] hover:bg-tertiary/40 transition-colors chamfer-sm text-center" href="https://my.feishu.cn/wiki/X8nLwn0FcinlHPk8QbZcRj3JnfD?from=from_copylink" target="_blank" rel="noreferrer">查看产品方案文档</a>
+  </div>
+</section>
+
+<div class="fixed inset-0 z-[60] hidden items-center justify-center bg-black/75 backdrop-blur-md px-4" id="wechat-modal">
+  <div class="w-full max-w-sm bg-surface-container-high border border-primary/40 chamfer p-6 text-center relative">
+    <button class="absolute top-3 right-3 text-primary/70 hover:text-primary" data-close-modal="wechat-modal" type="button">
+      <span class="material-symbols-outlined">close</span>
+    </button>
+    <p class="font-mono text-[10px] text-primary/60 uppercase tracking-[0.3em]">Personal WeChat</p>
+    <h2 class="mt-3 font-orbitron text-2xl font-black text-on-surface">联系我</h2>
+    <div class="mt-6 bg-white/95 p-4 inline-block">
+      <img alt="个人微信二维码" class="w-56 h-56 object-contain" src="assets/images/weixin.png"/>
+    </div>
+    <p class="mt-4 font-mono text-sm text-on-surface-variant">扫码后可直接添加微信交流。</p>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const modal = document.getElementById("wechat-modal");
+  document.querySelectorAll("[data-modal-target]").forEach((button) => {
+    button.addEventListener("click", function () {
+      modal.classList.remove("hidden");
+      modal.classList.add("flex");
+    });
+  });
+
+  document.querySelectorAll("[data-close-modal]").forEach((button) => {
+    button.addEventListener("click", function () {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    });
+  });
+
+  modal.addEventListener("click", function (event) {
+    if (event.target === modal) {
+      modal.classList.add("hidden");
+      modal.classList.remove("flex");
+    }
+  });
+});
+</script>
+</body>
+</html>
