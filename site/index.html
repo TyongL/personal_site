@@ -622,32 +622,52 @@ var _hmt = _hmt || [];
     }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
 
     function renderArticleCard(article) {
-        var coverBg = article.cover
-            ? 'background-image:url(\'' + article.cover + '\');background-size:cover;background-position:center;'
-            : 'background:#1f1f26;';
-        return '<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-secondary/20 hover:border-secondary/60 group transition-all duration-500 reveal fade-bottom overflow-hidden" data-type="article">'
-            + '<div class="relative h-44 overflow-hidden" style="' + coverBg + '">'
+        // Static card structure only — no user data in innerHTML (XSS prevention)
+        var tmplWrapper = document.createElement('div');
+        tmplWrapper.innerHTML = '<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-secondary/20 hover:border-secondary/60 group transition-all duration-500 reveal fade-bottom overflow-hidden" data-type="article">'
+            + '<div class="relative h-44 overflow-hidden js-cover-bg">'
             + '<div class="absolute inset-0 bg-gradient-to-t from-background/70 to-transparent"></div>'
             + '<div class="absolute inset-0 pointer-events-none opacity-20" style="background:linear-gradient(rgba(18,16,16,0) 50%,rgba(0,0,0,0.25) 50%);background-size:100% 3px;"></div>'
-            + '<div class="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700" style="' + coverBg + 'position:absolute;inset:0;opacity:0.9;transition:filter 0.7s;"></div>'
+            + '<div class="absolute inset-0 grayscale group-hover:grayscale-0 transition-all duration-700 js-cover-overlay" style="position:absolute;inset:0;opacity:0.9;transition:filter 0.7s;"></div>'
             + '</div>'
             + '<div class="p-6 flex flex-col gap-3">'
             + '<div class="font-mono text-[10px] flex justify-between items-center">'
             + '<span class="text-secondary uppercase tracking-widest">WECHAT_FEED</span>'
-            + '<span class="text-on-surface-variant">' + article.date + '</span>'
+            + '<span class="text-on-surface-variant js-date"></span>'
             + '</div>'
-            + '<h4 class="font-orbitron text-lg font-black text-on-surface group-hover:text-secondary transition-colors" style="-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;">'
-            + article.title
-            + '</h4>'
-            + '<p class="font-mono text-xs text-on-surface-variant leading-relaxed" style="-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;">'
-            + article.excerpt
-            + '</p>'
-            + '<a href="' + article.url + '" target="_blank" rel="noreferrer" '
-            + 'class="px-6 py-2 bg-secondary/20 border border-secondary/40 font-mono text-xs text-secondary hover:bg-secondary/40 transition-colors chamfer-sm inline-block mt-auto">'
-            + '阅读原文 →'
-            + '</a>'
+            + '<h4 class="font-orbitron text-lg font-black text-on-surface group-hover:text-secondary transition-colors js-title" style="-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;"></h4>'
+            + '<p class="font-mono text-xs text-on-surface-variant leading-relaxed js-excerpt" style="-webkit-line-clamp:2;display:-webkit-box;-webkit-box-orient:vertical;overflow:hidden;"></p>'
+            + '<a target="_blank" rel="noreferrer" class="px-6 py-2 bg-secondary/20 border border-secondary/40 font-mono text-xs text-secondary hover:bg-secondary/40 transition-colors chamfer-sm inline-block mt-auto js-link">阅读原文 →</a>'
             + '</div>'
             + '</div>';
+
+        var card = tmplWrapper.firstElementChild;
+
+        // Set cover background safely — CSS injection prevention via JSON.stringify
+        var coverBgDiv = card.querySelector('.js-cover-bg');
+        var coverOverlay = card.querySelector('.js-cover-overlay');
+        if (article.cover) {
+            var safeCoverUrl = 'url(' + JSON.stringify(article.cover) + ')';
+            coverBgDiv.style.backgroundImage = safeCoverUrl;
+            coverBgDiv.style.backgroundSize = 'cover';
+            coverBgDiv.style.backgroundPosition = 'center';
+            coverOverlay.style.backgroundImage = safeCoverUrl;
+            coverOverlay.style.backgroundSize = 'cover';
+            coverOverlay.style.backgroundPosition = 'center';
+        } else {
+            coverBgDiv.style.background = '#1f1f26';
+        }
+
+        // Set text content safely — XSS prevention via textContent
+        card.querySelector('.js-date').textContent = article.date;
+        card.querySelector('.js-title').textContent = article.title;
+        card.querySelector('.js-excerpt').textContent = article.excerpt;
+
+        // Set link href safely — validate protocol, fall back to '#' if invalid
+        var safeUrl = (article.url && (article.url.startsWith('https://') || article.url.startsWith('http://'))) ? article.url : '#';
+        card.querySelector('.js-link').setAttribute('href', safeUrl);
+
+        return card;
     }
 
     function switchTab(activeTab) {
@@ -676,9 +696,7 @@ var _hmt = _hmt || [];
         .then(function (r) { return r.json(); })
         .then(function (articles) {
             articles.forEach(function (article) {
-                var wrapper = document.createElement('div');
-                wrapper.innerHTML = renderArticleCard(article).trim();
-                var card = wrapper.firstElementChild;
+                var card = renderArticleCard(article);
                 container.appendChild(card);
                 revealObserver.observe(card);
             });
