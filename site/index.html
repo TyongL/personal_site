@@ -184,6 +184,31 @@
             color: #00ff88;
             border-bottom-color: #00ff88;
         }
+        .tab-btn {
+            color: rgba(164, 255, 185, 0.45);
+            border-color: rgba(164, 255, 185, 0.2);
+            transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+        }
+        .tab-btn:hover {
+            color: #00ff88;
+            background: rgba(164, 255, 185, 0.05);
+        }
+        .tab-btn.active-tab {
+            color: #00ff88;
+            background: rgba(164, 255, 185, 0.08);
+            border-color: rgba(164, 255, 185, 0.6);
+        }
+        .grid-3col {
+            grid-template-columns: repeat(1, minmax(0, 1fr));
+        }
+        @media (min-width: 768px) {
+            .grid-3col {
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+            }
+        }
+        #articles-container {
+            display: contents;
+        }
     </style>
 <!-- Baidu Analytics -->
 <script>
@@ -373,12 +398,18 @@ var _hmt = _hmt || [];
 <div class="w-full reveal fade-bottom">
 <h2 class="text-5xl md:text-7xl font-orbitron font-black text-[#00ff88] uppercase tracking-tighter glitch-text mb-8 text-left">我的项目</h2>
 <div class="font-mono text-[#e0e0e0] text-base md:text-lg border-l-4 border-[#ff51fa] pl-6 max-w-4xl leading-relaxed">
-                    这里是我最希望被进一步了解的 4 个项目。它们覆盖咨询交付、销售训练、AI 能力产品化和增长场景，也最能代表我如何把复杂问题推进成可落地方案。
+                    这里是我的项目与公众号文章。项目覆盖咨询交付、销售训练、AI 能力产品化和增长场景；文章记录我对 AI 应用与产品思考的持续探索。
                 </div>
 </div>
-<div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+<!-- Tab Navigation -->
+<div class="flex gap-2 font-mono text-xs uppercase tracking-widest reveal fade-bottom delay-100">
+    <button class="tab-btn active-tab px-6 py-2 border chamfer-sm font-bold" data-tab="all">全部</button>
+    <button class="tab-btn px-6 py-2 border chamfer-sm font-bold" data-tab="project">项目</button>
+    <button class="tab-btn px-6 py-2 border chamfer-sm font-bold" data-tab="article">文章</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-grid">
 <!-- Project 1 -->
-<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-primary/20 hover:border-primary/60 p-8 group transition-all duration-500 reveal fade-bottom">
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-primary/20 hover:border-primary/60 p-8 group transition-all duration-500 reveal fade-bottom" data-type="project">
 <div class="font-mono text-[10px] text-primary mb-2 flex justify-between items-center">
 <span>PRJ_CODE: CONSULT_AGENT</span>
 <span>AI 解决方案产品负责人</span>
@@ -393,7 +424,7 @@ var _hmt = _hmt || [];
 </div>
 </div>
 <!-- Project 2 -->
-<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-secondary/20 hover:border-secondary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-100">
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-secondary/20 hover:border-secondary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-100" data-type="project">
 <div class="font-mono text-[10px] text-secondary mb-2 flex justify-between items-center">
 <span>PRJ_CODE: SALES_TRAIN</span>
 <span>AI 解决方案产品负责人</span>
@@ -408,7 +439,7 @@ var _hmt = _hmt || [];
 </div>
 </div>
 <!-- Project 3 -->
-<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-tertiary/20 hover:border-tertiary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-200">
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-tertiary/20 hover:border-tertiary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-200" data-type="project">
 <div class="font-mono text-[10px] text-tertiary mb-2 flex justify-between items-center">
 <span>PRJ_CODE: VIDEO_PRODUCT</span>
 <span>产品经理</span>
@@ -423,7 +454,7 @@ var _hmt = _hmt || [];
 </div>
 </div>
 <!-- Project 4 -->
-<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-primary/20 hover:border-primary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-300">
+<div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-primary/20 hover:border-primary/60 p-8 group transition-all duration-500 reveal fade-bottom delay-300" data-type="project">
 <div class="font-mono text-[10px] text-primary mb-2 flex justify-between items-center">
 <span>PRJ_CODE: GROWTH_MULTI</span>
 <span>产品经理</span>
@@ -437,6 +468,8 @@ var _hmt = _hmt || [];
 <button class="px-8 py-2 bg-primary/20 border border-primary/40 font-mono text-xs text-primary hover:bg-primary/40 transition-colors chamfer-sm">查看项目</button>
 </div>
 </div>
+            <!-- Articles rendered here by JS -->
+            <div id="articles-container"></div>
 </div>
 </section>
 <!-- Connect Section -->

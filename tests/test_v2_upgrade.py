@@ -42,5 +42,28 @@ class ArticlesDataTest(unittest.TestCase):
         )
 
 
+class ProjectsTabUITest(unittest.TestCase):
+    def test_tab_buttons_exist(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn('data-tab="all"', html)
+        self.assertIn('data-tab="project"', html)
+        self.assertIn('data-tab="article"', html)
+
+    def test_four_project_cards_have_data_type(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertEqual(
+            html.count('data-type="project"'), 4,
+            "4 个项目卡片都应有 data-type=\"project\"",
+        )
+
+    def test_projects_grid_id_exists(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn('id="projects-grid"', html)
+
+    def test_articles_container_exists(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn('id="articles-container"', html)
+
+
 if __name__ == "__main__":
     unittest.main()
