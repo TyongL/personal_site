@@ -1,0 +1,10 @@
+[
+  {
+    "id": "article_001",
+    "title": "示例文章：AI 如何真正进入业务场景",
+    "date": "2026-07-06",
+    "excerpt": "这是一篇示例文章。请将此条目替换为你在公众号发布的真实文章信息，填入实际的标题、日期、摘要和微信文章链接。封面图放到 assets/images/articles/ 目录后，更新 cover 字段即可。",
+    "cover": "assets/images/articles/cover_001.jpg",
+    "url": "https://mp.weixin.qq.com/s/示例链接请替换"
+  }
+]

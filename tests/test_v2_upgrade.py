@@ -20,5 +20,27 @@ class BaiduAnalyticsTest(unittest.TestCase):
         self.assertLess(script_pos, head_close_pos, "百度统计脚本必须在 </head> 之前")
 
 
+class ArticlesDataTest(unittest.TestCase):
+    def test_articles_json_exists(self):
+        self.assertTrue(
+            (SITE / "articles.json").exists(),
+            "site/articles.json 应存在",
+        )
+
+    def test_articles_json_valid_structure(self):
+        data = json.loads((SITE / "articles.json").read_text(encoding="utf-8"))
+        self.assertIsInstance(data, list)
+        self.assertGreater(len(data), 0, "articles.json 至少需要一条示例记录")
+        required = ["id", "title", "date", "excerpt", "cover", "url"]
+        for field in required:
+            self.assertIn(field, data[0], f"字段缺失: {field}")
+
+    def test_articles_image_dir_exists(self):
+        self.assertTrue(
+            (SITE / "assets" / "images" / "articles").exists(),
+            "site/assets/images/articles/ 目录应存在",
+        )
+
+
 if __name__ == "__main__":
     unittest.main()
