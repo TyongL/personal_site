@@ -1,10 +1,10 @@
 [
   {
     "id": "article_001",
-    "title": "示例文章：AI 如何真正进入业务场景",
+    "title": "我手搓了一个小程序：帮线下活动老板做口碑裂变，也帮学员写出想发的朋友圈",
     "date": "2026-07-06",
-    "excerpt": "这是一篇示例文章。请将此条目替换为你在公众号发布的真实文章信息，填入实际的标题、日期、摘要和微信文章链接。封面图放到 assets/images/articles/ 目录后，更新 cover 字段即可。",
-    "cover": "assets/images/articles/cover_001.jpg",
-    "url": "https://mp.weixin.qq.com/s/示例链接请替换"
+    "excerpt": "它瞄准的是非常具体的场景：在线下课程、训练营，这类活动结束后，主办方当然希望学员能发朋友圈分享真实感受，给自己带一波流量和口碑。但是参与的学员也有自己的顾虑，将真实感受写成文字难，要想写得有金句有传播效果更难。所以我做这个小程序初衷，不是让 AI 自动帮你写朋友圈，而是：引导学员说出真实感受，借助 AI 将感受润色成一条有金句的传播力朋友圈。",
+    "cover": "assets/images/articles/cover_pyq-app.png",
+    "url": "https://mp.weixin.qq.com/s/6cZy8UlqizPbxp7TtVJO3g"
   }
 ]

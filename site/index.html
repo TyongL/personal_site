@@ -408,6 +408,8 @@ var _hmt = _hmt || [];
     <button class="tab-btn px-6 py-2 border chamfer-sm font-bold" data-tab="article">文章</button>
 </div>
 <div class="grid grid-cols-1 md:grid-cols-2 gap-8" id="projects-grid">
+            <!-- Articles rendered here by JS -->
+            <div id="articles-container"></div>
 <!-- Project 1 -->
 <div class="bg-surface-container-high chamfer border-r-2 border-b-2 border-primary/20 hover:border-primary/60 p-8 group transition-all duration-500 reveal fade-bottom" data-type="project">
 <div class="font-mono text-[10px] text-primary mb-2 flex justify-between items-center">
@@ -468,8 +470,6 @@ var _hmt = _hmt || [];
 <button class="px-8 py-2 bg-primary/20 border border-primary/40 font-mono text-xs text-primary hover:bg-primary/40 transition-colors chamfer-sm">查看项目</button>
 </div>
 </div>
-            <!-- Articles rendered here by JS -->
-            <div id="articles-container"></div>
 </div>
 </section>
 <!-- Connect Section -->
@@ -682,13 +682,8 @@ var _hmt = _hmt || [];
             var show = activeTab === 'all' || card.dataset.type === activeTab;
             card.style.display = show ? '' : 'none';
         });
-        if (activeTab === 'article') {
-            grid.classList.remove('md:grid-cols-2');
-            grid.classList.add('grid-3col');
-        } else {
-            grid.classList.remove('grid-3col');
-            grid.classList.add('md:grid-cols-2');
-        }
+        grid.classList.remove('grid-3col');
+        grid.classList.add('md:grid-cols-2');
     }
 
     tabBtns.forEach(function (btn) {
@@ -700,8 +695,8 @@ var _hmt = _hmt || [];
         .then(function (articles) {
             articles.forEach(function (article) {
                 var card = renderArticleCard(article);
+                card.classList.add('active');
                 container.appendChild(card);
-                revealObserver.observe(card);
             });
         })
         .catch(function () {});
