@@ -65,5 +65,27 @@ class ProjectsTabUITest(unittest.TestCase):
         self.assertIn('id="articles-container"', html)
 
 
+class ArticleRenderingTest(unittest.TestCase):
+    def test_fetch_articles_json_in_script(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn("fetch('articles.json')", html)
+
+    def test_wechat_feed_label_in_script(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn("WECHAT_FEED", html)
+
+    def test_read_original_link_in_script(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn("阅读原文", html)
+
+    def test_switch_tab_function_in_script(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn("switchTab", html)
+
+    def test_article_data_type_attribute_in_script(self):
+        html = INDEX.read_text(encoding="utf-8")
+        self.assertIn('data-type="article"', html)
+
+
 if __name__ == "__main__":
     unittest.main()
