@@ -646,8 +646,11 @@ var _hmt = _hmt || [];
         // Set cover background safely — CSS injection prevention via JSON.stringify
         var coverBgDiv = card.querySelector('.js-cover-bg');
         var coverOverlay = card.querySelector('.js-cover-overlay');
-        if (article.cover) {
-            var safeCoverUrl = 'url(' + JSON.stringify(article.cover) + ')';
+        var safeCover = (typeof article.cover === 'string' && article.cover.startsWith('assets/images/articles/'))
+            ? article.cover
+            : '';
+        if (safeCover) {
+            var safeCoverUrl = 'url(' + JSON.stringify(safeCover) + ')';
             coverBgDiv.style.backgroundImage = safeCoverUrl;
             coverBgDiv.style.backgroundSize = 'cover';
             coverBgDiv.style.backgroundPosition = 'center';
